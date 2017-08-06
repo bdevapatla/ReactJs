@@ -89,18 +89,20 @@ class Game extends React.Component {
     const current = history[this.state.stepNumber];
     const winner =  calculateWinner(current.squares);
     const moves = history.map((step,move) => {
-      const isCurrentMove = (current === step);
-      let desc = move ?
+       const isCurrentMove = (current === step);
+       let desc = move ?
         'Move (' + (Math.floor(step.activeLocation/3)+1) + ',' + (step.activeLocation%3 + 1) + ')':
         'Game start' ;
-        if(isCurrentMove){
-          desc = '<b>' + desc + '</b>';
-        }
-     return (
-        <li key={move}>
-          <a href="#" onClick={() => this.jumpTo(move)}>{desc}</a>
-        </li>
-     );
+       return (
+          <li key={move}>
+            {
+            isCurrentMove ?
+              <b><a href="#" onClick={() => this.jumpTo(move)}>{desc}</a></b>:
+              <a href="#" onClick={() => this.jumpTo(move)}>{desc}</a>
+            }
+          </li>
+       );
+
 
     });
 
@@ -145,6 +147,7 @@ function calculateWinner(squares){
     const [a,b,c] = lines[i];
     //If beginning of the pattern is not fill then there is no need to run the check
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]){
+      
       return squares[a];
     }
   }
